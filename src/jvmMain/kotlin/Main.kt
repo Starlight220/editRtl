@@ -1,14 +1,13 @@
 package io.starlight220.editrtl
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.launchApplication
 import kotlinx.coroutines.*
 import java.awt.FileDialog
+import java.awt.SystemColor.window
 import java.io.File
 
 fun main(args: Array<String>): Unit = runBlocking {
@@ -25,9 +24,7 @@ fun main(args: Array<String>): Unit = runBlocking {
             },
             onKeyEvent = { handleKeyPress(filepathState.value, contentState.value, it) }
         ) {
-            CompositionLocalProvider(
-                LocalLayoutDirection provides LayoutDirection.Rtl
-            ) {
+            Root {
                 fun openFile() {
                     args.getOrNull(0)?.let {
                         println("Got path <$it> from args")
@@ -41,12 +38,10 @@ fun main(args: Array<String>): Unit = runBlocking {
                     }.run { (directory ?: return@run null) + (file ?: return@run null) }?.let {
                         println("Got path <$it> from dialog")
                         filepathState.value = it
-                        contentState.value = it
                         return
                     }
                     error("No file selected")
                 }
-
                 fun loadContent(file: File) {
                     contentState.value = file.readText()
                 }
@@ -59,6 +54,7 @@ fun main(args: Array<String>): Unit = runBlocking {
         }
     }
 }
+
 
 actual fun save(filepath: String, content: String) {
     println("Saving to $filepath:\n```\n$content\n```")

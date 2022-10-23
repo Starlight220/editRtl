@@ -1,32 +1,47 @@
 package io.starlight220.editrtl
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.textFieldColors
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
+fun Root(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colors = darkColors()
+    ) {
+        CompositionLocalProvider(
+        LocalLayoutDirection provides LayoutDirection.Rtl
+    ) {
+        content()
+    }
+
+    }
+}
+
+@Composable
 fun TextEditor(contentState: MutableState<String> = remember { mutableStateOf("") }) {
     val (value, onValueChange) = contentState
-    BasicTextField(
+    TextField(
         modifier = Modifier.fillMaxSize().padding(10.dp),
         value = value, onValueChange = onValueChange,
-        textStyle = TextStyle.Default.copy(textDirection = TextDirection.Rtl)
+        colors = textFieldColors(backgroundColor = Color.Black, textColor = Color.Cyan),
+//        textStyle = TextStyle.Default.copy(textDirection = TextDirection.Rtl)
     )
 }
 
