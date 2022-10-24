@@ -1,13 +1,14 @@
 package io.starlight220.editrtl
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.launchApplication
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
 import java.awt.FileDialog
-import java.awt.SystemColor.window
 import java.io.File
 
 fun main(args: Array<String>): Unit = runBlocking {
@@ -18,6 +19,7 @@ fun main(args: Array<String>): Unit = runBlocking {
         Window(
             state = WindowState(WindowPlacement.Maximized),
             title = "EditRtl: ${filepathState.value}",
+            icon = painterResource("icon.svg"),
             onCloseRequest = {
                 save(filepathState.value, contentState.value)
                 exitApplication()
