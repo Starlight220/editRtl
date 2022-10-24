@@ -1,0 +1,14 @@
+  on:
+    push
+
+  jobs:
+    jar:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - run: |
+            ./gradlew jar
+        - uses: actions/upload-artifact@v3
+          with:
+            name: editRtl
+            path: ./build/libs/editRtl-jvm-1.1.jar
